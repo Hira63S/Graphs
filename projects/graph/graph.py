@@ -116,14 +116,16 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
+        # create a queue
         q = Queue()
+
         q.enqueue([starting_vertex])
 
         visited = set()
 
         while q.size > 0:
-            path = q.dequeue()
-            v = path[-1]
+            path = q.dequeue()    # dequeue the first path element
+            v = path[-1]          # get the last vertex from the path
 
             if v not in visited:
                 if v==destination_vertex:
@@ -133,10 +135,10 @@ class Graph:
 
                 for next_vertex in self.get_neighbors(v):
                     new_path = path.copy()
+                    # bug where we reference the same path and we keep adding to the same path
                     new_path.copy(next_vert)
-
+                #   queue.enqueue([*path, neighbor])
                     q.enqueue(new_path)
-
         return None
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -200,7 +202,7 @@ class Graph:
                     neighbor, destination_vertex, visited, path_copy)
                 if new_path is not None:
                     return new_path
-
+        return None
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
