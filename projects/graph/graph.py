@@ -1,7 +1,7 @@
 """
 Simple graph implementation
 """
-from util import Stack, Queue  # These may come in handy
+from .util import Stack, Queue  # These may come in handy
 
 class Graph:
 
@@ -13,7 +13,8 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        self.vertices[vertex_id] = set()   # create a set for vertices
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()   # create a set for vertices
         # add a vertex to the graph and we initialize it to empty set
     def add_edge(self, v1, v2):
         """
@@ -189,8 +190,6 @@ class Graph:
         # add vertex to the path
         # if not in visited
         # we add it to visited
-        #
-        #
         # since recursion, we need to have base cases
         if visited is None:
             visited = set()
