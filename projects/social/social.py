@@ -1,3 +1,18 @@
+import random
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -43,10 +58,36 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
+        # to create N random friendship,s create a list of all the possible avg_friendships
+        # shuffle the list of friendships, and grab the first N elements.
 
+        for i in range(num_users):
+            self.add_user(f"Users{i+1}")    # creates empty adjacency list for 10 users
+
+        # let's create all possible friendships
+
+        possible_friendships = []
+        for user_id in self.users:
+            for friend_id in range(user_id+1, self.last_id+1):
+                possible_friendships.append((user_id, friend_id))
+
+    #    print(possible_friendships)
+        random.shuffle(possible_friendships)
+    #    print(possible_friendships)
+        # create_friendships create two friendships.
+
+        # 1, 2, 3
+        # would have :
+        # (1, 2), (1, 3), (2, 3)
+        # friendships
         # Add users
+        # let's slice friendships:
+        # create n friendships where n = avg_friendships * num_users//2
+        for i in range(num_users * avg_friendships //2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
 
-        # Create friendships
+
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,6 +100,23 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # let's do the basic stuff we always start with:
+        q = Queue()
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            new = path[-1]
+
+            if new not in visited:
+
+                visited[new] = path
+
+                for neighbor in self.friendships[new]:
+                    new_path = list(path)
+                    new_path.append(neighbor)
+                    q.enqueue(new_path)
+
         return visited
 
 
