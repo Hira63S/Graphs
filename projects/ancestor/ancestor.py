@@ -90,23 +90,26 @@ def earliest_ancestor(ancestors, starting_node):
     q = Queue()
     q.enqueue([starting_node])
 
-    # since the connection between each node is exactly 1:
+    # since the connection between each node is exactly 1
+    # initial length of 1
     max_connection_len = 1
     # also, if the ancestor does not have parents, that means that is the earliest_ancestor
     earliest_ancestor = -1
 
-    # now, let's set the maximum size i.e.
+    # the queue has something in it
     while q.size() > 0:
         # we initialize the path
         path = q.dequeue()
         # get the node
         current_vertex = path[-1]
-
+        # if the lenght of path is euqal to 1 i.e. path == max_connection_len
         if len(path) == max_connection_len:            # if it equal 1
+            # if the value of the current vertex i.e. parent node in path is less than
+            # the earliest_ancestor, then we update the earliest_ancestor to be the current vertex
             if current_vertex < earliest_ancestor:     # then check if the current value is less than -1
                 earliest_ancestor = current_vertex
                 max_connection_len = len(path)
-
+        # if the length of the path is greater than the 1
         if len(path) > max_connection_len: #and v < earliest_ancestor) or (len(path) > max_connection_len):
             earliest_ancestor = current_vertex
             max_connection_len = len(path)
