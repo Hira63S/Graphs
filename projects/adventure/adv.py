@@ -28,12 +28,11 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
-
 # keep track of all the moves the player makes:
 path_traveled = []
-# reversals:
-reverse_directions = {'s':'n', 'n':'s', 'w':'e', 'e':'w'}
 # the most important dictionary!!!
+reverse_directions = {'s':'n', 'n':'s', 'w':'e', 'e':'w'}
+
 visited_rooms = {}
 visited_rooms[0] = player.current_room.get_exits()
 # let's add rooms to the visited_rooms dictionary
@@ -51,7 +50,18 @@ while len(visited_rooms) < len(room_graph)-1:
         visited_rooms[player.current_room.id].remove(last_move)
         # print(visited_rooms)
     # after we have added all the rooms in the visited_rooms:
+    while len(visited_rooms[player.current_room.id]) < 1:
+        # get the last_direction
+        reversal = path_traveled.pop()
+        # we will want to put that in traversal path to keep track of moves we need to makes
+        traversal_path.append(reversal)
+        # then, we move in that direction
+        player.travel(reversal)
 
+    moving_dir = visited_rooms[player.current_room.id].pop(0)
+    traversal_path.append(moving_dir)
+    path_traveled.append(reverse_directions[moving_dir])
+    player.travel(moving_dir)
 
 
 # TRAVERSAL TEST
