@@ -23,11 +23,34 @@ world.load_graph(room_graph)
 # Print an ASCII map
 world.print_rooms()
 
-player = Player(world.starting_room)
 
+player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
+
+# keep track of all the moves the player makes:
+path_traveled = []
+# reversals:
+reverse_directions = {'s':'n', 'n':'s', 'w':'e', 'e':'w'}
+# the most important dictionary!!!
+visited_rooms = {}
+visited_rooms[0] = player.current_room.get_exits()
+# let's add rooms to the visited_rooms dictionary
+while len(visited_rooms) < len(room_graph)-1:
+    # add the ids and exits:
+    if player.current_room.id not in visited_rooms:
+        # create adjacency lists for all the room ids
+        visited_rooms[player.current_room.id] = player.current_room.get_exits()
+        # print(visited_rooms)
+        # get the last_move, since we initiated with room 0, the player can travel
+        # in all four directions, so we get 'n' for last_move
+        last_move = path_traveled[-1]
+#        print(last_move)
+        # remove this direction from the exits so that the stupid player would not move there anymore
+        visited_rooms[player.current_room.id].remove(last_move)
+        # print(visited_rooms)
+    # after we have added all the rooms in the visited_rooms:
 
 
 
